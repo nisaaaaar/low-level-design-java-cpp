@@ -6,7 +6,7 @@ Welcome to the **Low-Level Design (LLD)** practice repository using **Java**! Th
 
 ## 📚 Table of Contents
 
-1. [📌 About This Repository](#about-this-repository)
+1. [About This Repository](#about-this-repository)
 2. [Prerequisites](#prerequisites)
 3. [Folder Structure](#folder-structure)
 4. [What You'll Learn](#what-youll-learn)
