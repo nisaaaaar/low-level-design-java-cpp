@@ -1,19 +1,3 @@
-Here is a complete `README.md` file for **SOLID**, **DRY**, and **KISS** principles with:
-
-* ✅ Definitions
-* ✅ Benefits
-* ✅ Java examples
-
-You can place this inside your repo as:
-
-```
-lld-java/
-└── 02_principles/
-    └── README.md
-```
-
----
-
 ### ✅ `02_principles/README.md`
 
 ````markdown
