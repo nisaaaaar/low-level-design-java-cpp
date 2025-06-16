@@ -6,7 +6,7 @@ Welcome to the **Low-Level Design (LLD)** practice repository using **Java**! Th
 
 ## 📚 Table of Contents
 
-1. [About This Repository](#about-this-repository)
+1. [📌 About This Repository](#about-this-repository)
 2. [Prerequisites](#prerequisites)
 3. [Folder Structure](#folder-structure)
 4. [What You'll Learn](#what-youll-learn)
@@ -45,13 +45,13 @@ Each of these is covered with examples inside the `/01_prerequisites/` folder.
 
 ## 📁 Folder Structure
 
-lld-java/
-├── 01_prerequisites/ # Java concepts needed before LLD
-├── 02_solid_principles/ # Examples of SOLID in Java
-├── 03_design_patterns/ # Singleton, Factory, Builder, etc.
-├── 04_lld_projects/ # Book System, Parking Lot, etc.
-├── 05_utils/ # Reusable helpers or utilities
-└── README.md
+- lld-java/
+- ├── 01_prerequisites/ # Java concepts needed before LLD
+- ├── 02_solid_principles/ # Examples of SOLID in Java
+- ├── 03_design_patterns/ # Singleton, Factory, Builder, etc.
+- ├── 04_lld_projects/ # Book System, Parking Lot, etc.
+- ├── 05_utils/ # Reusable helpers or utilities
+- └── README.md
 
 
 ---
