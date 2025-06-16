@@ -1,13 +1,9 @@
----
-
 ### ✅ `01_prerequisites/README.md`
 
-````markdown
 # 📘 Java Prerequisites for Low-Level Design (LLD)
 
 This document covers the essential Java concepts you must be comfortable with before diving into Low-Level Design (LLD). Each section includes explanations and examples to help reinforce your understanding.
 
----
 
 ## ✅ 1. Java Basics
 
