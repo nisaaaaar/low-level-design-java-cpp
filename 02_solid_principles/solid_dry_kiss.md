@@ -1,11 +1,9 @@
 ### ✅ `02_principles/README.md`
 
-````markdown
 # 📏 SOLID, DRY, and KISS Principles in Java
 
 This document explains key design principles for writing clean, maintainable, and scalable Java code used in Low-Level Design (LLD).
 
----
 
 ## 🔹 1. SOLID Principles
 
