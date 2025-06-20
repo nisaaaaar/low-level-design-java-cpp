@@ -1,142 +1,144 @@
-## 🧩 Bridge Design Pattern in Java
+## 🧩 **Bridge Design Pattern in C++**
 
 ---
 
 ### ✅ **Definition**
 
-The **Bridge Pattern** is a **structural design pattern** that:
-
-> “**Decouples** an abstraction from its implementation so that the two can vary independently.”
-
-This is useful when both the **abstraction (what to do)** and the **implementation (how to do it)** are likely to change.
+The **Bridge Pattern** is a **structural design pattern** that decouples an abstraction from its implementation so that the two can vary independently.
 
 ---
 
 ### 🎯 **Analogy**
 
-> Imagine a **TV remote control** (the abstraction) that can operate different brands of **TVs** (the implementation).
-> The remote control defines operations like `turnOn()`, `turnOff()`, and `setChannel()` but how each brand implements those may differ.
-> The **bridge** allows the same remote to work with multiple TV brands **without changing its code**.
+> A **remote control** (abstraction) can work with different **TV brands** (implementations). You can change the remote or the TV without changing the other.
 
 ---
 
-## 💻 **Real-World Code Example**
-
-### 🧵 Scenario: A `RemoteControl` should control any brand of `TV` (e.g., Sony, Samsung).
+## 💻 **Code Example: Remote Control & TV**
 
 ---
 
-### 1️⃣ `TV` Interface – The Implementation Side (Bridge)
+### 1️⃣ `TV` Interface – Implementor
 
-```java
-public interface TV {
-    void on();
-    void off();
-    void setChannel(int channel);
-}
+```cpp
+#include <iostream>
+#include <memory>
+
+class TV {
+public:
+    virtual void on() = 0;
+    virtual void off() = 0;
+    virtual void setChannel(int channel) = 0;
+    virtual ~TV() = default;
+};
 ```
 
 ---
 
-### 2️⃣ Concrete Implementations – Sony and Samsung TVs
+### 2️⃣ Concrete Implementations – `SonyTV`, `SamsungTV`
 
-```java
-public class SonyTV implements TV {
-    public void on() {
-        System.out.println("Sony TV is ON");
+```cpp
+class SonyTV : public TV {
+public:
+    void on() override {
+        std::cout << "Sony TV is ON\n";
     }
-    public void off() {
-        System.out.println("Sony TV is OFF");
-    }
-    public void setChannel(int channel) {
-        System.out.println("Sony TV: Channel set to " + channel);
-    }
-}
-```
 
-```java
-public class SamsungTV implements TV {
-    public void on() {
-        System.out.println("Samsung TV is ON");
+    void off() override {
+        std::cout << "Sony TV is OFF\n";
     }
-    public void off() {
-        System.out.println("Samsung TV is OFF");
+
+    void setChannel(int channel) override {
+        std::cout << "Sony TV: Channel set to " << channel << "\n";
     }
-    public void setChannel(int channel) {
-        System.out.println("Samsung TV: Channel set to " + channel);
+};
+
+class SamsungTV : public TV {
+public:
+    void on() override {
+        std::cout << "Samsung TV is ON\n";
     }
-}
+
+    void off() override {
+        std::cout << "Samsung TV is OFF\n";
+    }
+
+    void setChannel(int channel) override {
+        std::cout << "Samsung TV: Channel set to " << channel << "\n";
+    }
+};
 ```
 
 ---
 
-### 3️⃣ `RemoteControl` – The Abstraction
+### 3️⃣ `RemoteControl` – Abstraction
 
-```java
-public abstract class RemoteControl {
-    protected TV tv;
+```cpp
+class RemoteControl {
+protected:
+    std::shared_ptr<TV> tv;
 
-    public RemoteControl(TV tv) {
-        this.tv = tv;
-    }
-
-    public abstract void turnOn();
-    public abstract void turnOff();
-    public abstract void setChannel(int channel);
-}
+public:
+    RemoteControl(std::shared_ptr<TV> tv) : tv(tv) {}
+    virtual void turnOn() = 0;
+    virtual void turnOff() = 0;
+    virtual void setChannel(int channel) = 0;
+    virtual ~RemoteControl() = default;
+};
 ```
 
 ---
 
 ### 4️⃣ `BasicRemote` – Refined Abstraction
 
-```java
-public class BasicRemote extends RemoteControl {
-    public BasicRemote(TV tv) {
-        super(tv);
+```cpp
+class BasicRemote : public RemoteControl {
+public:
+    BasicRemote(std::shared_ptr<TV> tv) : RemoteControl(tv) {}
+
+    void turnOn() override {
+        tv->on();
     }
 
-    public void turnOn() {
-        tv.on();
+    void turnOff() override {
+        tv->off();
     }
 
-    public void turnOff() {
-        tv.off();
+    void setChannel(int channel) override {
+        tv->setChannel(channel);
     }
+};
+```
 
-    public void setChannel(int channel) {
-        tv.setChannel(channel);
-    }
+---
+
+### 5️⃣ Client Code – Bridge in Action
+
+```cpp
+int main() {
+    std::shared_ptr<TV> sonyTV = std::make_shared<SonyTV>();
+    BasicRemote sonyRemote(sonyTV);
+
+    sonyRemote.turnOn();
+    sonyRemote.setChannel(5);
+    sonyRemote.turnOff();
+
+    std::cout << "----\n";
+
+    std::shared_ptr<TV> samsungTV = std::make_shared<SamsungTV>();
+    BasicRemote samsungRemote(samsungTV);
+
+    samsungRemote.turnOn();
+    samsungRemote.setChannel(10);
+    samsungRemote.turnOff();
+
+    return 0;
 }
 ```
 
 ---
 
-### 5️⃣ Client Code – Using Bridge Pattern
-
-```java
-public class BridgePatternDemo {
-    public static void main(String[] args) {
-        TV sony = new SonyTV();
-        RemoteControl sonyRemote = new BasicRemote(sony);
-        sonyRemote.turnOn();
-        sonyRemote.setChannel(5);
-        sonyRemote.turnOff();
-
-        System.out.println("----");
-
-        TV samsung = new SamsungTV();
-        RemoteControl samsungRemote = new BasicRemote(samsung);
-        samsungRemote.turnOn();
-        samsungRemote.setChannel(10);
-        samsungRemote.turnOff();
-    }
-}
-```
-
----
-
-## ✅ **Output**
+### ✅ Output
 
 ```
 Sony TV is ON
@@ -150,7 +152,7 @@ Samsung TV is OFF
 
 ---
 
-## 📐 UML Diagram (Textual)
+## 📐 UML Diagram (Text-Based)
 
 ```
         +---------------------+          uses          +---------------------+
@@ -161,74 +163,59 @@ Samsung TV is OFF
         +----------------+                                 +------------------+
         |  BasicRemote    |                                 |  SonyTV          |
         +----------------+                                 |  SamsungTV       |
-                                                          +------------------+
+                                                           +------------------+
 ```
 
-* `RemoteControl` → **Abstraction**
-* `TV` → **Implementor**
-* `BasicRemote` → **Refined Abstraction**
-* `SonyTV`, `SamsungTV` → **Concrete Implementors**
+---
+
+## ✅ Benefits
+
+| Benefit                  | Description                                                         |
+| ------------------------ | ------------------------------------------------------------------- |
+| ✅ Decoupling             | Abstraction (`Remote`) and implementation (`TV`) vary independently |
+| ✅ Flexibility            | Easily add new remotes or TVs without changes to each other         |
+| ✅ Avoids Class Explosion | No need for SonyAdvancedRemote, SamsungBasicRemote, etc.            |
+| ✅ Clean Code             | Separation of concern between interface and implementation          |
 
 ---
 
-## 📈 Key Benefits
+## ⏱️ When to Use Bridge Pattern
 
-| Benefit         | Description                                                                          |
-| --------------- | ------------------------------------------------------------------------------------ |
-| ✅ Decoupling    | Abstraction and implementation evolve independently                                  |
-| ✅ Flexibility   | Mix and match different remotes and TVs at runtime                                   |
-| ✅ Extensibility | Add new remotes or devices without affecting existing ones                           |
-| ✅ Cleaner Code  | Avoids explosion of subclasses like `SonyBasicRemote`, `SamsungAdvancedRemote`, etc. |
+* When both abstraction and implementation may change independently
+* To avoid multiplying subclasses for combinations of abstraction/implementation
+* When you want to switch implementations at runtime
 
 ---
 
-## ⏱️ When to Use It
+## ⚠️ Caveats
 
-Use Bridge Pattern when:
-
-* You want to **separate abstraction and implementation**.
-* Both may change independently.
-* You want to avoid a **class explosion** due to combinations of implementations and abstractions.
-* You need **runtime flexibility** to switch implementations.
+| Limitation               | Why?                                        |
+| ------------------------ | ------------------------------------------- |
+| Extra complexity         | More interfaces and indirection introduced  |
+| Overkill for simple apps | Simpler inheritance/composition may suffice |
 
 ---
 
-## ⚠️ Limitations / Caveats
+## ✅ SOLID Principles Followed
 
-* ❌ Slightly more **complex** design (more layers/abstractions).
-* ❌ Can be **overkill** for small or simple systems.
-* ❌ Introduces **indirection**, which may affect performance or readability.
-
----
-
-## 🧠 Follows SOLID Principles
-
-| Principle | Applied? | Explanation                                                       |
-| --------- | -------- | ----------------------------------------------------------------- |
-| ✅ SRP     | Yes      | Remote and TV classes have separate responsibilities              |
-| ✅ OCP     | Yes      | Add new TV or Remote without modifying existing code              |
-| ✅ DIP     | Yes      | `RemoteControl` depends on abstraction (`TV`), not concrete class |
-| ✅ LSP     | Yes      | Subclasses can substitute base classes safely                     |
-| ✅ ISP     | Yes      | Interfaces (`TV`) are minimal and focused                         |
+| Principle | Applied? | Why?                                                           |
+| --------- | -------- | -------------------------------------------------------------- |
+| ✅ SRP     | Yes      | TV and Remote have independent responsibilities                |
+| ✅ OCP     | Yes      | Easily extend with new TVs or remotes                          |
+| ✅ DIP     | Yes      | RemoteControl depends on abstraction (`TV`), not concrete type |
+| ✅ LSP     | Yes      | Subclasses substitute base types safely                        |
+| ✅ ISP     | Yes      | TV interface is small and focused                              |
 
 ---
 
 ## 🌍 Real-World Use Case
 
-### ✅ Example: **Cross-platform UI Toolkits**
-
-Imagine building a **drawing application** that must support different **operating systems** like Windows, Mac, Linux.
-You define an abstraction like `Shape` and bridge it with implementations like `WindowsRenderer`, `MacRenderer`.
-
-* `Shape` = Abstraction (`RemoteControl`)
-* `Renderer` = Implementation (`TV`)
-
-This way, `Shape` (abstraction) and `Renderer` (implementation) can be developed and changed independently.
+> A cross-platform graphics app can have a `Shape` (abstraction) and `Renderer` (implementation) to decouple UI from platform-specific drawing APIs.
 
 ---
 
-## 📝 Summary for Interview
+## 📌 Interview Summary
 
-> The **Bridge Pattern** helps you **separate abstraction from implementation**, making it easier to change either without affecting the other.
-> A good example is a `RemoteControl` (abstraction) controlling multiple types of `TV` (implementations).
-> It helps manage complexity when both dimensions grow independently and aligns well with **SOLID principles** like DIP and OCP.
+> The **Bridge Pattern** lets you separate abstraction (e.g., Remote) from implementation (e.g., TV). It helps scale code in two dimensions independently and avoids subclass explosion. I used it to model universal remotes that work across multiple TV brands without hard coupling.
+
+
